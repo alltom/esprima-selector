@@ -14,14 +14,13 @@ var src = falafel(fs.readFileSync('test.js', 'utf8'), eselector.tester([
 	{
 		selector: 'program',
 		callback: function (node) {
-			node.before("var indent = []; function start(n) { console.log(indent.join(''), n); indent.push('\t') } function end() { indent.pop() }");
+			node.update("var indent = []; function start() { console.log(indent.join('') + '*'); indent.push('\t') } function end() { indent.pop() }" + node.source());
 		},
 	},
 	{
 		selector: 'program declaration.function > block',
 		callback: function (node) {
-			node.before("start(n);");
-			node.after("end(n);", true);
+			node.update("start();" + node.source() + "end();");
 		},
 	},
 ]));
