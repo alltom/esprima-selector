@@ -70,84 +70,95 @@ function nodeTag(node) {
 	if (node.type === 'Identifier') {
 		var exprTag = { name: 'expression', classes: ['identifier'] };
 		switch (node.parent.type) {
-		case 'VariableDeclarator': if (node.parent.init === node) return exprTag; break;
-		case 'AssignmentExpression': if (node.parent.right === node) return exprTag; break;
-		case 'MemberExpression': if ((node.parent.object === node) || (node.parent.computed && node.parent.property === node)) return exprTag; break;
-		case 'Property': if (node.parent.value === node) return exprTag; break;
-		case 'CallExpression': return exprTag;
-		case 'BinaryExpression': return exprTag;
-		case 'ReturnStatement': return exprTag;
-		case 'UnaryExpression': return exprTag;
-		case 'NewExpression': return exprTag;
-		case 'LogicalExpression': return exprTag;
+		case 'VariableDeclarator': if (node.parent.init === node) return decorate(exprTag); break;
+		case 'AssignmentExpression': if (node.parent.right === node) return decorate(exprTag); break;
+		case 'MemberExpression': if ((node.parent.object === node) || (node.parent.computed && node.parent.property === node)) return decorate(exprTag); break;
+		case 'Property': if (node.parent.value === node) return decorate(exprTag); break;
+		case 'CallExpression': return decorate(exprTag);
+		case 'BinaryExpression': return decorate(exprTag);
+		case 'ReturnStatement': return decorate(exprTag);
+		case 'UnaryExpression': return decorate(exprTag);
+		case 'NewExpression': return decorate(exprTag);
+		case 'LogicalExpression': return decorate(exprTag);
 		case 'FunctionDeclaration': break;
 		case 'FunctionExpression': break;
 		default: throw new Error('unrecognized identifier parent ' + node.parent.type);
 		}
 		return undefined;
 	} else if (node.type === 'Literal') {
-		return { name: 'expression', classes: ['literal'] };
+		return decorate({ name: 'expression', classes: ['literal'] });
 	} else if (node.type === 'CallExpression') {
-		return { name: 'expression', classes: ['call'] };
+		return decorate({ name: 'expression', classes: ['call'] });
 	} else if (node.type === 'UnaryExpression') {
-		return { name: 'expression', classes: ['unary'] };
+		return decorate({ name: 'expression', classes: ['unary'] });
 	} else if (node.type === 'BinaryExpression') {
-		return { name: 'expression', classes: ['binary'] };
+		return decorate({ name: 'expression', classes: ['binary'] });
 	} else if (node.type === 'ArrayExpression') {
-		return { name: 'expression', classes: ['array'] };
+		return decorate({ name: 'expression', classes: ['array'] });
 	} else if (node.type === 'AssignmentExpression') {
-		return { name: 'expression', classes: ['assignment'] };
+		return decorate({ name: 'expression', classes: ['assignment'] });
 	} else if (node.type === 'MemberExpression') {
-		return { name: 'expression', classes: ['member'] };
+		return decorate({ name: 'expression', classes: ['member'] });
 	} else if (node.type === 'LogicalExpression') {
-		return { name: 'expression', classes: ['logical'] };
+		return decorate({ name: 'expression', classes: ['logical'] });
 	} else if (node.type === 'ObjectExpression') {
-		return { name: 'expression', classes: ['object'] };
+		return decorate({ name: 'expression', classes: ['object'] });
 	} else if (node.type === 'NewExpression') {
-		return { name: 'expression', classes: ['new'] };
+		return decorate({ name: 'expression', classes: ['new'] });
 	} else if (node.type === 'FunctionExpression') {
-		return { name: 'expression', classes: ['function'] };
+		return decorate({ name: 'expression', classes: ['function'] });
 
 	} else if (node.type === 'ReturnStatement') {
-		return { name: 'statement', classes: ['return'] };
+		return decorate({ name: 'statement', classes: ['return'] });
 	} else if (node.type === 'BreakStatement') {
-		return { name: 'statement', classes: ['break'] };
+		return decorate({ name: 'statement', classes: ['break'] });
 	} else if (node.type === 'ExpressionStatement') {
-		return { name: 'statement', classes: ['expression'] };
+		return decorate({ name: 'statement', classes: ['expression'] });
 	} else if (node.type === 'IfStatement') {
-		return { name: 'statement', classes: ['if'] };
+		return decorate({ name: 'statement', classes: ['if'] });
 	} else if (node.type === 'WhileStatement') {
-		return { name: 'statement', classes: ['white'] };
+		return decorate({ name: 'statement', classes: ['white'] });
 	} else if (node.type === 'ThrowStatement') {
-		return { name: 'statement', classes: ['throw'] };
+		return decorate({ name: 'statement', classes: ['throw'] });
 	} else if (node.type === 'ForInStatement') {
-		return { name: 'statement', classes: ['forin'] };
+		return decorate({ name: 'statement', classes: ['forin'] });
 	} else if (node.type === 'SwitchStatement') {
-		return { name: 'statement', classes: ['switch'] };
+		return decorate({ name: 'statement', classes: ['switch'] });
 
 	} else if (node.type === 'BlockStatement') {
-		return { name: 'block', classes: [] };
+		return decorate({ name: 'block', classes: [] });
 
 	} else if (node.type === 'VariableDeclaration') {
-		return { name: 'declaration', classes: ['variable'] };
+		return decorate({ name: 'declaration', classes: ['variable'] });
 	} else if (node.type === 'FunctionDeclaration') {
-		return { name: 'declaration', classes: ['function'] };
+		return decorate({ name: 'declaration', classes: ['function'] });
 
 	} else if (node.type === 'VariableDeclarator') {
-		return { name: 'declarator', classes: [] };
+		return decorate({ name: 'declarator', classes: [] });
 
 	} else if (node.type === 'Property') {
-		return { name: 'property', classes: [] };
+		return decorate({ name: 'property', classes: [] });
 
 	} else if (node.type === 'SwitchCase') {
-		return { name: 'switch-case', classes: [] };
+		return decorate({ name: 'switch-case', classes: [] });
 
 	} else if (node.type === 'Program') {
-		return { name: 'program', classes: [] };
+		return decorate({ name: 'program', classes: [] });
 	}
 	// console.error(node);
 	// console.error(node.source());
 	throw new Error('tag not found for ' + node.type);
+
+	function decorate(tag) {
+		if (node.parent) {
+			if (node.parent.type === 'IfStatement') {
+				if (node.parent.consequent === node || node.parent.alternate === node) {
+					tag.classes.push('body', 'branch');
+				}
+			}
+		}
+		return tag;
+	}
 }
 
 function isMatch(tag, selector) {
