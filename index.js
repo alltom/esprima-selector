@@ -152,8 +152,10 @@ function nodeTag(node) {
 	function decorate(tag) {
 		if (node.parent) {
 			if (node.parent.type === 'IfStatement') {
-				if (node.parent.consequent === node || node.parent.alternate === node) {
-					tag.classes.push('body', 'branch');
+				if (node.parent.consequent === node) {
+					tag.classes.push('branch', 'consequent');
+				} else if (node.parent.alternate === node) {
+					tag.classes.push('branch', 'alternate');
 				}
 			}
 		}
