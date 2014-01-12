@@ -80,6 +80,10 @@ function nodeTag(node) {
 		case 'UnaryExpression': return decorate(exprTag);
 		case 'NewExpression': return decorate(exprTag);
 		case 'LogicalExpression': return decorate(exprTag);
+		case 'UpdateExpression': return decorate(exprTag);
+		case 'CatchClause': return decorate(exprTag);
+		case 'IfStatement': return decorate(exprTag);
+		case 'ForStatement': return decorate(exprTag);
 		case 'FunctionDeclaration': break;
 		case 'FunctionExpression': break;
 		default: throw new Error('unrecognized identifier parent ' + node.parent.type);
@@ -91,6 +95,8 @@ function nodeTag(node) {
 		return decorate({ name: 'expression', classes: ['call'] });
 	} else if (node.type === 'UnaryExpression') {
 		return decorate({ name: 'expression', classes: ['unary'] });
+	} else if (node.type === 'UpdateExpression') {
+		return decorate({ name: 'expression', classes: ['update'] });
 	} else if (node.type === 'BinaryExpression') {
 		return decorate({ name: 'expression', classes: ['binary'] });
 	} else if (node.type === 'ArrayExpression') {
@@ -120,6 +126,12 @@ function nodeTag(node) {
 		return decorate({ name: 'statement', classes: ['white'] });
 	} else if (node.type === 'ThrowStatement') {
 		return decorate({ name: 'statement', classes: ['throw'] });
+	} else if (node.type === 'TryStatement') {
+		return decorate({ name: 'statement', classes: ['try'] });
+	} else if (node.type === 'CatchClause') {
+		return decorate({ name: 'clause', classes: ['catch'] });
+	} else if (node.type === 'ForStatement') {
+		return decorate({ name: 'statement', classes: ['for'] });
 	} else if (node.type === 'ForInStatement') {
 		return decorate({ name: 'statement', classes: ['forin'] });
 	} else if (node.type === 'SwitchStatement') {
@@ -127,6 +139,9 @@ function nodeTag(node) {
 
 	} else if (node.type === 'BlockStatement') {
 		return decorate({ name: 'block', classes: [] });
+
+	} else if (node.type === 'EmptyStatement') {
+		return undefined;
 
 	} else if (node.type === 'VariableDeclaration') {
 		return decorate({ name: 'declaration', classes: ['variable'] });
