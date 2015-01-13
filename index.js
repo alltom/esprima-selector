@@ -74,23 +74,36 @@ function nodeTag(node) {
 		case 'AssignmentExpression': if (node.parent.right === node) return decorate(exprTag); break;
 		case 'MemberExpression': if ((node.parent.object === node) || (node.parent.computed && node.parent.property === node)) return decorate(exprTag); break;
 		case 'Property': if (node.parent.value === node) return decorate(exprTag); break;
+		case 'ArrayExpression': return decorate(exprTag);
 		case 'CallExpression': return decorate(exprTag);
 		case 'BinaryExpression': return decorate(exprTag);
+		case 'ConditionalExpression': return decorate(exprTag);
 		case 'ReturnStatement': return decorate(exprTag);
 		case 'UnaryExpression': return decorate(exprTag);
 		case 'NewExpression': return decorate(exprTag);
 		case 'LogicalExpression': return decorate(exprTag);
 		case 'UpdateExpression': return decorate(exprTag);
+		case 'SequenceExpression': return decorate(exprTag);
 		case 'CatchClause': return decorate(exprTag);
+		case 'ExpressionStatement': return decorate(exprTag);
 		case 'IfStatement': return decorate(exprTag);
+		case 'SwitchStatement': return decorate(exprTag);
 		case 'ForStatement': return decorate(exprTag);
+		case 'ForInStatement': return decorate(exprTag);
+		case 'WhileStatement': return decorate(exprTag);
+		case 'DoWhileStatement': return decorate(exprTag);
+		case 'ThrowStatement': return decorate(exprTag);
 		case 'FunctionDeclaration': break;
 		case 'FunctionExpression': break;
+		case 'LabeledStatement': break;
+		case 'BreakStatement': break;
 		default: throw new Error('unrecognized identifier parent ' + node.parent.type);
 		}
 		return undefined;
 	} else if (node.type === 'Literal') {
 		return decorate({ name: 'expression', classes: ['literal'] });
+	} else if (node.type === 'ThisExpression') {
+		return decorate({ name: 'expression', classes: ['this'] });
 	} else if (node.type === 'CallExpression') {
 		return decorate({ name: 'expression', classes: ['call'] });
 	} else if (node.type === 'UnaryExpression') {
@@ -107,6 +120,10 @@ function nodeTag(node) {
 		return decorate({ name: 'expression', classes: ['member'] });
 	} else if (node.type === 'LogicalExpression') {
 		return decorate({ name: 'expression', classes: ['logical'] });
+	} else if (node.type === 'ConditionalExpression') {
+		return decorate({ name: 'expression', classes: ['ternary'] });
+	} else if (node.type === 'SequenceExpression') {
+		return decorate({ name: 'expression', classes: ['comma'] });
 	} else if (node.type === 'ObjectExpression') {
 		return decorate({ name: 'expression', classes: ['object'] });
 	} else if (node.type === 'NewExpression') {
@@ -118,12 +135,18 @@ function nodeTag(node) {
 		return decorate({ name: 'statement', classes: ['return'] });
 	} else if (node.type === 'BreakStatement') {
 		return decorate({ name: 'statement', classes: ['break'] });
+	} else if (node.type === 'ContinueStatement') {
+		return decorate({ name: 'statement', classes: ['break'] });
+	} else if (node.type === 'LabeledStatement') {
+		return decorate({ name: 'statement', classes: ['label'] });
 	} else if (node.type === 'ExpressionStatement') {
 		return decorate({ name: 'statement', classes: ['expression'] });
 	} else if (node.type === 'IfStatement') {
 		return decorate({ name: 'statement', classes: ['if'] });
 	} else if (node.type === 'WhileStatement') {
-		return decorate({ name: 'statement', classes: ['white'] });
+		return decorate({ name: 'statement', classes: ['while'] });
+	} else if (node.type === 'DoWhileStatement') {
+		return decorate({ name: 'statement', classes: ['do-while'] });
 	} else if (node.type === 'ThrowStatement') {
 		return decorate({ name: 'statement', classes: ['throw'] });
 	} else if (node.type === 'TryStatement') {
