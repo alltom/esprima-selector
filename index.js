@@ -159,6 +159,8 @@ function nodeTag(node) {
 		return decorate({ name: 'statement', classes: ['forin'] });
 	} else if (node.type === 'SwitchStatement') {
 		return decorate({ name: 'statement', classes: ['switch'] });
+	} else if (node.type === 'DebuggerStatement') {
+		return decorate({ name: 'statement', classes: ['debugger'] });
 
 	} else if (node.type === 'BlockStatement') {
 		return decorate({ name: 'block', classes: [] });
