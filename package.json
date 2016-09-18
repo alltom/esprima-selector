@@ -1,6 +1,6 @@
 {
 	"name" : "esprima-selector",
-	"version" : "0.0.4",
+	"version" : "0.0.5",
 	"author" : "Tom Lieber <tom@alltom.com>",
 	"description" : "ask whether a particular esprima node matches a CSS-like selector",
 	"repository" : {
