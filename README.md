@@ -14,22 +14,30 @@ If you're using a library like [falafel](https://github.com/substack/node-falafe
 var eselector = require('esprima-selector');
 
 var src = falafel(fs.readFileSync('test.js', 'utf8'), eselector.tester([
-	{
-		selector: '*',
-		callback: function (node) { console.log('node', node.name, node.classes) },
-	},
-	{
-		selector: 'program',
-		callback: function (node) {
-			node.update("var indent = []; function start() { console.log(indent.join('') + '*'); indent.push('\t') } function end() { indent.pop() }" + node.source());
-		},
-	},
-	{
-		selector: 'program declaration.function > block',
-		callback: function (node) {
-			node.update("start();" + node.source() + "end();");
-		},
-	},
+  {
+    selector: '*',
+    callback: function(node) {
+      // Gets called for every node in the AST.
+      console.log('node', node.name, node.classes);
+    },
+  },
+  {
+    selector: 'program',
+    callback: function(node) {
+      // Gets called for the outmost node in the AST.
+      node.update(
+          'var indent = []; function start() { console.log(indent.join(\'\') + \'*\'); indent.push(\'\t\') } function end() { indent.pop() }' +
+          node.source());
+    },
+  },
+  {
+    selector: 'program declaration.function > block',
+    callback: function(node) {
+      // Gets called for every code block that's the body of a function
+      // declaration.
+      node.update('start();' + node.source() + 'end();');
+    },
+  },
 ]));
 ```
 
